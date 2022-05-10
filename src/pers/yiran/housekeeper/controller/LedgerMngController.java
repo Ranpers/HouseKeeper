@@ -60,7 +60,23 @@ public class LedgerMngController extends AbstractLedgerMngDialog {
 
     @Override
     public void deleteLedger() {
-
+        int row = ledgerDataTable.getSelectedRow();
+        if (0 > row) {
+            JOptionPane.showMessageDialog(this, "没有选择数据");
+            return;
+        }
+        Ledger ledger = getLedgerByTableRow(row);
+        if (null == ledger) {
+            JOptionPane.showMessageDialog(this, "您选择的是空行");
+            return;
+        }
+        int result = JOptionPane.showConfirmDialog(this, "确定要删除吗？");
+        if (JOptionPane.OK_OPTION == result) {
+            if (1 == ledgerService.deleteLedger(ledger.getLid())) {
+                queryLedger();
+                JOptionPane.showMessageDialog(this, "删除成功");
+            }
+        }
     }
 
     @Override

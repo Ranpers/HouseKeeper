@@ -11,20 +11,28 @@ import java.util.Map;
 public class LedgerService {
     private LedgerDao ledgerDao = new LedgerDao();
     private SortDao sortDao = new SortDao();
+
+    public int deleteLedger(int lid) {
+        return ledgerDao.deleteLedger(lid);
+    }
+
+    public int editLedger(Ledger ledger) {
+        return ledgerDao.editLedger(ledger);
+    }
+
+    public int getSidBySname(String sname) {
+        return sortDao.getSidBySname(sname);
+    }
+
     /*
      *定义方法 添加账务
      */
-   public int editLedger(Ledger ledger){
-       return ledgerDao.editLedger(ledger);
-    }
-    public int getSidBySname(String sname){
-       return sortDao.getSidBySname(sname);
-    }
-    public int addLedger(Ledger ledger){
+    public int addLedger(Ledger ledger) {
         int sid = sortDao.getSidBySname(ledger.getSname());
         ledger.setSid(sid);
         return ledgerDao.addLedger(ledger);
     }
+
     /*
      * return Map集合
      * 遍历符合条件的 List集合 计算出 收入 支出

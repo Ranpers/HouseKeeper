@@ -12,13 +12,22 @@ import java.util.List;
 
 public class LedgerDao {
     private QueryRunner queryRunner = new QueryRunner(JDBCUtils.getDataSource());
-    public int editLedger(Ledger ledger){
-        String sql = "UPDATE keeper_ledger SET parent = ?, money = ?, sid = ?,"+
-                " account = ?, createtime = ?, ldesc = ?"+
-                "WHERE lid = ?";
-        Object[] params = {ledger.getParent(),ledger.getMoney(),ledger.getSid(),ledger.getAccount(),ledger.getCreatetime(),ledger.getLdesc(),ledger.getLid()};
+
+    public int deleteLedger(int lid) {
         try {
-            return queryRunner.update(sql,params);
+            return queryRunner.update("DELETE FROM keeper_ledger WHERE lid = ?", lid);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public int editLedger(Ledger ledger) {
+        String sql = "UPDATE keeper_ledger SET parent = ?, money = ?, sid = ?," +
+                " account = ?, createtime = ?, ldesc = ?" +
+                "WHERE lid = ?";
+        Object[] params = {ledger.getParent(), ledger.getMoney(), ledger.getSid(), ledger.getAccount(), ledger.getCreatetime(), ledger.getLdesc(), ledger.getLid()};
+        try {
+            return queryRunner.update(sql, params);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
