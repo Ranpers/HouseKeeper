@@ -9,18 +9,22 @@ import pers.yiran.housekeeper.view.AbstractLedgerMngDialog;
 import javax.swing.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 public class LedgerMngController extends AbstractLedgerMngDialog {
     private SortService sortService = new SortService();
     private LedgerService ledgerService = new LedgerService();
-    private String formatDouble(Object val){
-        return String.format("%.2f",(double)val);
-    }
+    private List<Ledger> list;
+
     public LedgerMngController(JFrame frame) {
         super(frame);
         queryLedger();
+    }
+
+    private String formatDouble(Object val) {
+        return String.format("%.2f", (double) val);
     }
 
     @Override
@@ -28,14 +32,21 @@ public class LedgerMngController extends AbstractLedgerMngDialog {
         AddLedgerController addLedgerController = new AddLedgerController(this);
         addLedgerController.setVisible(true);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        try {
-            if(addLedgerController.flag1(sdf.parse(beginDateTxt.getText()),sdf.parse(endDateTxt.getText()),parentBox.getSelectedItem().toString(),sortBox.getSelectedItem().toString()))
-                queryLedger();
-            if(addLedgerController.flag())
-                JOptionPane.showMessageDialog(this, "添加账务成功");
-        } catch (ParseException e) {
-            throw new RuntimeException(e);
+        if (true) { //后期改为list.isEmpty
+            try {
+                Date date1 = sdf.parse(beginDateTxt.getText());
+                Date date2 = sdf.parse(endDateTxt.getText());
+                String parent = parentBox.getSelectedItem().toString();
+                String son = sortBox.getSelectedItem().toString();
+                if (addLedgerController.flag1(date1, date2, parent, son))
+                    queryLedger();
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
         }
+        //TODO 新的刷新逻辑 当 List 不为空时 遍历当前界面 List 获取日期范围 可在 LedgerService类 queryLedger()函数 遍历时实现
+        if (addLedgerController.flag())
+            JOptionPane.showMessageDialog(this, "添加账务成功");
     }
 
     @Override
@@ -88,6 +99,7 @@ public class LedgerMngController extends AbstractLedgerMngDialog {
         QueryForm queryForm = new QueryForm(begin,end,parent,son);
         Map<String,Object> data = ledgerService.queryLedgerByQueryForm(queryForm);
         List<Ledger> list = (List<Ledger>)data.get("ledger");
+        this.list = list;
         this.setTableModel(list);
         this.inMoneyTotalLabel.setText("总收入："+formatDouble(data.get("in"))+"元");
         this.payMoneyTotalLabel.setText("总支出："+formatDouble(data.get("out"))+"元");

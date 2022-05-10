@@ -1,31 +1,20 @@
 package pers.yiran.housekeeper.view;
 
-import java.awt.Font;
+import pers.yiran.housekeeper.domain.Ledger;
+import pers.yiran.housekeeper.tools.DateChooser;
+import pers.yiran.housekeeper.tools.DateUtils;
+import pers.yiran.housekeeper.tools.GUITools;
+import pers.yiran.housekeeper.tools.ListTableModel;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Date;
 import java.util.List;
-
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
-import javax.swing.WindowConstants;
-import javax.swing.table.DefaultTableModel;
-
-import pers.yiran.housekeeper.domain.Ledger;
-import pers.yiran.housekeeper.tools.DateChooser;
-import pers.yiran.housekeeper.tools.DateUtils;
-import pers.yiran.housekeeper.tools.GUITools;
-import pers.yiran.housekeeper.tools.ListTableModel;
 
 
 public abstract class AbstractLedgerMngDialog extends JDialog {
@@ -227,9 +216,14 @@ public abstract class AbstractLedgerMngDialog extends JDialog {
 		parentBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 				parentChange();
+				//queryLedger();
 			}
 		});
-
+		/*sortBox.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+				queryLedger();
+			}
+		});*/
 		ledgerDataTable.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				if (e.getButton() == 1) {
