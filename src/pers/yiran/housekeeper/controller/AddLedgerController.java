@@ -15,6 +15,7 @@ public class AddLedgerController extends AbstractOperationLedgerDialog {
     SortService sortService = new SortService();
     LedgerService ledgerService = new LedgerService();
     private boolean flag = false;
+    private boolean flag2 = false;
     private final String daytime = createtimeTxt.getText();
     public AddLedgerController(JDialog dialog) {
         super(dialog);
@@ -80,18 +81,25 @@ public class AddLedgerController extends AbstractOperationLedgerDialog {
             throw new RuntimeException(e);
         }
         String ldesc = ldescTxt.getText();
+        flag2 = true;
         Ledger ledger = new Ledger(0,parent,money,0,son,account,createtime,ldesc);
         if(1==ledgerService.addLedger(ledger)) {
-            this.setVisible(false);
+            this.dispose();
             flag = true;
         }else{
             JOptionPane.showMessageDialog(this, "添加账务失败");
         }
     }
-    public boolean flag(){
+
+    public boolean flag() {
         return flag;
     }
-    public boolean flag1(Date begin,Date end,String parent,String son){
+
+    public boolean flag2() {
+        return flag2;
+    }
+
+    public boolean flag1(Date begin, Date end, String parent, String son) {
         String createtime = createtimeTxt.getText();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         Date date = null;
@@ -102,11 +110,10 @@ public class AddLedgerController extends AbstractOperationLedgerDialog {
         }
         String parent1 = parentBox.getSelectedItem().toString();
         String son1 = sortBox.getSelectedItem().toString();
-        this.dispose();
-        if(!(0>date.compareTo(begin))&&!(0< date.compareTo(end))&&parent1==parent&&son1==son)
-            return true;
-        if(!(0>date.compareTo(begin))&&!(0< date.compareTo(end))&&"-请选择-"==parent&&"-请选择-"==son)
-            return true;
+        if (!(0 > date.compareTo(begin)) && !(0 < date.compareTo(end)) && parent1 == parent && son1 == son)
+            return this.flag;
+        else if (!(0 > date.compareTo(begin)) && !(0 < date.compareTo(end)) && "-请选择-" == parent && "-请选择-" == son)
+            return this.flag;
         return false;
     }
 }
