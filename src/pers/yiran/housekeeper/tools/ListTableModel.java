@@ -5,7 +5,7 @@ import org.apache.commons.beanutils.BeanUtils;
 
 import javax.swing.table.AbstractTableModel;
 import java.io.Serial;
-
+@SuppressWarnings("all")
 public class ListTableModel<T> extends AbstractTableModel {
     @Serial
     private static final long serialVersionUID = 1L;
