@@ -80,7 +80,7 @@ public class LedgerMngController extends AbstractLedgerMngDialog {
         int result = JOptionPane.showConfirmDialog(this, "确定要删除吗？");
         if (JOptionPane.OK_OPTION == result) {
             if (1 == ledgerService.deleteLedger(ledger.getLid())) {
-                queryLedger();
+                queryLedger(minDate, maxDate, parent, son);
                 JOptionPane.showMessageDialog(this, "删除成功");
             }
         }
