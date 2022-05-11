@@ -1,19 +1,10 @@
 package pers.yiran.housekeeper.view;
 
+import pers.yiran.housekeeper.tools.GUITools;
+
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.WindowConstants;
-
-import pers.yiran.housekeeper.tools.GUITools;
 
 @SuppressWarnings("ALL")
 public abstract class AbstractOperationSortDialog extends JDialog {

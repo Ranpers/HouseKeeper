@@ -1,8 +1,6 @@
 package pers.yiran.housekeeper.controller;
 
-import pers.yiran.housekeeper.dao.SortDao;
 import pers.yiran.housekeeper.domain.Ledger;
-import pers.yiran.housekeeper.domain.Sort;
 import pers.yiran.housekeeper.services.LedgerService;
 import pers.yiran.housekeeper.services.SortService;
 import pers.yiran.housekeeper.view.AbstractOperationLedgerDialog;

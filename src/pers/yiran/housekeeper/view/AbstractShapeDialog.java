@@ -1,17 +1,12 @@
 package pers.yiran.housekeeper.view;
 
-import java.awt.Image;
-import java.io.File;
-import java.util.List;
+import pers.yiran.housekeeper.tools.GUITools;
 
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.WindowConstants;
-
-import pers.yiran.housekeeper.tools.GUITools;
+import javax.swing.*;
+import java.awt.*;
+import java.io.File;
+import java.util.List;
 
 @SuppressWarnings("all")
 public abstract class AbstractShapeDialog extends JDialog {
