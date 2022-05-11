@@ -9,7 +9,6 @@ import pers.yiran.housekeeper.view.AbstractLedgerMngDialog;
 import javax.swing.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -36,30 +35,16 @@ public class LedgerMngController extends AbstractLedgerMngDialog {
         AddLedgerController addLedgerController = new AddLedgerController(this);
         addLedgerController.setVisible(true);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        String parent = parentBox.getSelectedItem().toString();
-        String son = sortBox.getSelectedItem().toString();
         if (!addLedgerController.flag2()) return;
-        if (list.isEmpty()) { //后期改为list.isEmpty
-            try {
-                Date date1 = sdf.parse(beginDateTxt.getText());
-                Date date2 = sdf.parse(endDateTxt.getText());
-                if (addLedgerController.flag1(date1, date2, parent, son))
-                    queryLedger(sdf.format(date1), sdf.format(date2), parent, son);
-            } catch (ParseException e) {
-                throw new RuntimeException(e);
-            }
-        } else {
-            try {
-                if (addLedgerController.flag1(sdf.parse(minDate), sdf.parse(maxDate), this.parent, this.son))
-                    queryLedger(minDate, maxDate, this.parent, this.son);
-            } catch (ParseException e) {
-                throw new RuntimeException(e);
-            }
+        try {
+            if (addLedgerController.flag1(sdf.parse(minDate), sdf.parse(maxDate), parent, son))
+                queryLedger(minDate, maxDate, parent, son);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
         }
         if (addLedgerController.flag())
             JOptionPane.showMessageDialog(this, "添加账务成功");
     }
-
     @Override
     public void editLedger() {
         int row = ledgerDataTable.getSelectedRow();
