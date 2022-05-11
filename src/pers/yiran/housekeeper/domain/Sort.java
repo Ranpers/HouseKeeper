@@ -11,7 +11,6 @@ public class Sort {
 
 	public Sort() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public Sort(int sid, String sname, String parent, String sdesc) {
