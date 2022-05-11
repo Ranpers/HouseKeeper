@@ -44,7 +44,7 @@ public class LedgerDao {
         }
     }
     public List<Ledger> queryLedgerByQueryForm(QueryForm queryForm) {
-        List<String> params = new ArrayList<String>();
+        List<String> params = new ArrayList<>();
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("SELECT * FROM keeper_ledger WHERE createtime BETWEEN ? AND ?");
         params.add(queryForm.getBegin());
@@ -60,7 +60,7 @@ public class LedgerDao {
             params.add(sid + "");
         }
         try {
-            return queryRunner.query(stringBuilder.toString(), new BeanListHandler<Ledger>(Ledger.class), params.toArray());
+            return queryRunner.query(stringBuilder.toString(), new BeanListHandler<>(Ledger.class), params.toArray());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
