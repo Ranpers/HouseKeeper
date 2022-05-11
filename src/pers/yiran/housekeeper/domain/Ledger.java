@@ -87,7 +87,4 @@ public class Ledger {
 		return "Ledger [账务id=" + lid + ", 父分类=" + parent + ", 金额=" + money + ", 分类id=" + sid + ", 分类名字=" + sname
 				+ ", 账户=" + account + ", 创建时间=" + createtime + ", 描述=" + ldesc + "]";
 	}
-	
-	
-	
 }
