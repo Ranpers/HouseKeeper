@@ -26,13 +26,13 @@ public abstract class AbstractLedgerMngDialog extends JDialog {
 	protected JLabel inMoneyTotalLabel = new JLabel("总收入：0.00元");
 	protected JLabel payMoneyTotalLabel = new JLabel("总支出：0.00元");
 
-	private JButton queryBtn = new JButton("查　询");// 查询按钮
-	private JButton pieBtn = new JButton("收/支比重统计");
-	private JButton closeBtn = new JButton("关闭");
+	private final JButton queryBtn = new JButton("查　询");// 查询按钮
+	private final JButton pieBtn = new JButton("收/支比重统计");
+	private final JButton closeBtn = new JButton("关闭");
 
-	private JButton addBtn = new JButton("添加");
-	private JButton editBtn = new JButton("编辑");
-	private JButton delBtn = new JButton("删除");
+	private final JButton addBtn = new JButton("添加");
+	private final JButton editBtn = new JButton("编辑");
+	private final JButton delBtn = new JButton("删除");
 
 	public AbstractLedgerMngDialog(JFrame frame) {
 		super(frame, true);

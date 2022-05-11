@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class LedgerDao {
-    private QueryRunner queryRunner = new QueryRunner(JDBCUtils.getDataSource());
+    private final QueryRunner queryRunner = new QueryRunner(JDBCUtils.getDataSource());
 
     public int deleteLedger(int lid) {
         try {

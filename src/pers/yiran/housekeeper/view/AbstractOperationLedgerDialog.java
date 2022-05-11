@@ -1,21 +1,12 @@
 package pers.yiran.housekeeper.view;
 
+import pers.yiran.housekeeper.tools.DateChooser;
+import pers.yiran.housekeeper.tools.GUITools;
+
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Date;
-
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-import javax.swing.JTextField;
-import javax.swing.WindowConstants;
-
-import pers.yiran.housekeeper.tools.DateChooser;
-import pers.yiran.housekeeper.tools.GUITools;
 
 
 
@@ -34,15 +25,15 @@ public abstract class AbstractOperationLedgerDialog extends JDialog {
 	protected JTextField createtimeTxt = new JTextField();//创建日期文本框
 	protected JTextArea ldescTxt = new JTextArea();//说明文本域
 	protected JLabel titleLabel = new JLabel("需要子类设置");
-	
-	private JButton cancelBtn = new JButton("取消");
-	private JButton submitBtn = new JButton("确定");
-	
+
+	private final JButton cancelBtn = new JButton("取消");
+	private final JButton submitBtn = new JButton("确定");
+
 	public AbstractOperationLedgerDialog(JDialog dialog) {
 		super(dialog, true);
 		this.initDialog();
 	}
-	
+
 	public void initDialog() {
 		init();
 		addComponent();

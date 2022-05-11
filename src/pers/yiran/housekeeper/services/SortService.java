@@ -6,7 +6,7 @@ import pers.yiran.housekeeper.domain.Sort;
 import java.util.List;
 
 public class SortService {
-    private SortDao sortDao = new SortDao();
+    private final SortDao sortDao = new SortDao();
     public List<Object> querySortNameAll(){
         return sortDao.querySortNameAll();
     }

@@ -15,31 +15,30 @@ import java.util.Date;
 import java.util.List;
 
 /**
- *
  * @author thinkpad
  */
-public class DateChooser extends JPanel{
+public class DateChooser extends JPanel {
 
     private static final long serialVersionUID = -5384012731547358720L;
-    
-    private Calendar calendar;
-    private Calendar now = Calendar.getInstance();
+
+    private final Calendar calendar;
+    private final Calendar now = Calendar.getInstance();
     private JPanel calendarPanel;
-    private java.awt.Font font = new java.awt.Font("Times",java.awt.Font.PLAIN,12);
-    private java.text.SimpleDateFormat sdf;
+    private final java.awt.Font font = new java.awt.Font("Times", java.awt.Font.PLAIN, 12);
+    private final java.text.SimpleDateFormat sdf;
     private final LabelManager lm = new LabelManager();
     private javax.swing.Popup pop;
     private TitlePanel titlePanel;
     private BodyPanel bodyPanel;
     private FooterPanel footerPanel;
-    
+
     private JComponent showDate;
     private boolean isShow = false;
     private static final String DEFAULTFORMAT = "yyyy-MM-dd";
-    private static final String[] showTEXT = {"Sun","Mon","Tue","Wed","Thu","Fri","Sat"};
-    private static WeekLabel[] weekLabels = new WeekLabel[7];
+    private static final String[] showTEXT = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
+    private static final WeekLabel[] weekLabels = new WeekLabel[7];
     private static int defaultStartDAY = 0;//0 is from Sun, 1 is from Mon, 2 is from Tue
-    private static Color hoverColor = Color.BLUE; // hover color
+    private static final Color hoverColor = Color.BLUE; // hover color
     
 
     private DateChooser(java.util.Date date, String format, int startDAY){
@@ -220,20 +219,23 @@ public class DateChooser extends JPanel{
             center.setText(calendar.get(Calendar.YEAR)+"-"+(calendar.get(Calendar.MONTH) + 1));
         }
         // listener for control label.
-        class MyMouseAdapter extends java.awt.event.MouseAdapter{
-            
+        class MyMouseAdapter extends java.awt.event.MouseAdapter {
+
             JLabel label;
-            private int type, value;
-            
-            public MyMouseAdapter(final JLabel label, final int type, final int value){
+            private final int type;
+            private final int value;
+
+            public MyMouseAdapter(final JLabel label, final int type, final int value) {
                 this.label = label;
                 this.type = type;
                 this.value = value;
             }
+
             public void mouseEntered(java.awt.event.MouseEvent me) {
                 label.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
                 label.setForeground(hoverColor);
             }
+
             public void mouseExited(java.awt.event.MouseEvent me) {
                 label.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
                 label.setForeground(java.awt.Color.BLACK);
@@ -312,17 +314,22 @@ public class DateChooser extends JPanel{
                 public void mouseExited(MouseEvent e) {
                     dateLabel.setForeground(Color.BLACK);
                 }
+
                 @Override
                 public void mouseEntered(MouseEvent e) {
                     dateLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
                     dateLabel.setForeground(hoverColor);
                 }
+
                 @Override
-                public void mouseClicked(MouseEvent e) {}
+                public void mouseClicked(MouseEvent e) {
+                }
             });
             this.add(dateLabel);
         }
-        public void updateDate(){};
+
+        public void updateDate() {
+        }
     }
     //refresh all panel
     private void refresh() {
@@ -335,8 +342,8 @@ public class DateChooser extends JPanel{
     private class WeekLabel extends JLabel {
         
         private static final long serialVersionUID = -8053965084432740110L;
-        private String name;
-        
+        private final String name;
+
         public WeekLabel(int index, String name){
             super(name, JLabel.CENTER);
             this.name = name;
@@ -350,14 +357,16 @@ public class DateChooser extends JPanel{
 
         private static final long serialVersionUID = -6002103678554799020L;
         private boolean isSelected;
-        private int year, month, day;
-        
-        public DayLabel(Calendar cal){
-            super(""+cal.get(Calendar.DAY_OF_MONTH), JLabel.CENTER);
+        private final int year;
+        private final int month;
+        private final int day;
+
+        public DayLabel(Calendar cal) {
+            super("" + cal.get(Calendar.DAY_OF_MONTH), JLabel.CENTER);
             this.year = cal.get(Calendar.YEAR);
             this.month = cal.get(Calendar.MONTH);
             this.day = cal.get(Calendar.DAY_OF_MONTH);
-            
+
             this.setFont(font);
             this.addMouseListener(this);
             this.addMouseMotionListener(this);
@@ -463,8 +472,8 @@ public class DateChooser extends JPanel{
     }
     
     private class LabelManager {
-        private List<DayLabel> list;
-        
+        private final List<DayLabel> list;
+
         public LabelManager(){
             list = new ArrayList<>();
         }

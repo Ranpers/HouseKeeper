@@ -13,9 +13,8 @@ import java.util.List;
 import java.util.Map;
 
 public class LedgerMngController extends AbstractLedgerMngDialog {
-    private SortService sortService = new SortService();
-    private LedgerService ledgerService = new LedgerService();
-    private List<Ledger> list;
+    private final SortService sortService = new SortService();
+    private final LedgerService ledgerService = new LedgerService();
     private String maxDate;
     private String minDate;
     private String parent;
@@ -103,7 +102,6 @@ public class LedgerMngController extends AbstractLedgerMngDialog {
         QueryForm queryForm = new QueryForm(begin, end, parent, son);
         Map<String, Object> data = ledgerService.queryLedgerByQueryForm(queryForm);
         List<Ledger> list = (List<Ledger>) data.get("ledger");
-        this.list = list;
         this.setTableModel(list);
         this.inMoneyTotalLabel.setText("总收入：" + formatDouble(data.get("in")) + "元");
         this.payMoneyTotalLabel.setText("总支出：" + formatDouble(data.get("out")) + "元");

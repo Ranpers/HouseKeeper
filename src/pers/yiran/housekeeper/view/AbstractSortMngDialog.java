@@ -1,40 +1,32 @@
 package pers.yiran.housekeeper.view;
 
-import java.awt.Font;
+import pers.yiran.housekeeper.domain.Sort;
+import pers.yiran.housekeeper.tools.GUITools;
+import pers.yiran.housekeeper.tools.ListTableModel;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
 
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.ListSelectionModel;
-import javax.swing.WindowConstants;
-import javax.swing.table.DefaultTableModel;
-
-import pers.yiran.housekeeper.domain.Sort;
-import pers.yiran.housekeeper.tools.GUITools;
-import pers.yiran.housekeeper.tools.ListTableModel;
-
 
 public abstract class AbstractSortMngDialog extends JDialog {
 	protected JTable sortDataTable = new JTable();//账户数据列表
-	private JButton closeBtn = new JButton("关闭");
+	private final JButton closeBtn = new JButton("关闭");
 
-	private JButton addBtn = new JButton("添加");
-	private JButton editBtn = new JButton("编辑");
-	private JButton delBtn = new JButton("删除");
-	
+	private final JButton addBtn = new JButton("添加");
+	private final JButton editBtn = new JButton("编辑");
+	private final JButton delBtn = new JButton("删除");
+
 	public AbstractSortMngDialog(JFrame frame) {
 		super(frame, true);
 		this.initDialog();
 	}
-	
+
 	protected void initDialog() {
 		this.init();
 		this.addComponent();

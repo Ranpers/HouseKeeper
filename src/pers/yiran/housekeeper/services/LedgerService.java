@@ -9,8 +9,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 public class LedgerService {
-    private LedgerDao ledgerDao = new LedgerDao();
-    private SortDao sortDao = new SortDao();
+    private final LedgerDao ledgerDao = new LedgerDao();
+    private final SortDao sortDao = new SortDao();
 
     public int deleteLedger(int lid) {
         return ledgerDao.deleteLedger(lid);

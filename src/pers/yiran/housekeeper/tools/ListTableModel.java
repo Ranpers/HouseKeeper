@@ -7,16 +7,16 @@ import javax.swing.table.AbstractTableModel;
 import java.io.Serial;
 
 public class ListTableModel<T> extends AbstractTableModel {
-	@Serial
+    @Serial
     private static final long serialVersionUID = 1L;
-	private java.util.List<T> list;
-    private String[] colNames;
-    private String[] propNames;
-    
+    private final java.util.List<T> list;
+    private final String[] colNames;
+    private final String[] propNames;
+
     public ListTableModel(java.util.List<T> list, Class<?> c, String[] colNames, String[] propNames) throws Exception {
         if (list == null) {
             throw new Exception();
-        } 
+        }
         this.list = list;
         this.colNames = colNames;
         this.propNames = propNames;

@@ -9,25 +9,26 @@ import java.awt.event.ActionListener;
 
 public abstract class AbstractMainFrame extends JFrame {
 	static {
-    	try {
+		try {
 			javax.swing.UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
+
 	/*
 	 * 组件
 	 */
-	private JLabel titleLabel = new JLabel(new ImageIcon("resource/image/gjp.jpg"));//标题
-	private JButton ledgerBtn = new JButton("账务管理");//账务管理
-	private JButton sortBtn = new JButton("分类管理");//分类管理
-	
+	private final JLabel titleLabel = new JLabel(new ImageIcon("resource/image/gjp.jpg"));//标题
+	private final JButton ledgerBtn = new JButton("账务管理");//账务管理
+	private final JButton sortBtn = new JButton("分类管理");//分类管理
+
 	public AbstractMainFrame() {
 		this.init();// 初始化操作
 		this.addComponent();// 添加组件
 		this.addListener();// 添加监听器
 	}
-	
+
 	// 初始化操作
 	private void init() {
 		this.setTitle("欢迎使用管家婆家庭记账软件");// 标题
