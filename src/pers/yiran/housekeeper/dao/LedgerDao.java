@@ -1,9 +1,12 @@
 package pers.yiran.housekeeper.dao;
 
 import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.handlers.ArrayListHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
+import org.apache.commons.dbutils.handlers.ScalarHandler;
 import pers.yiran.housekeeper.domain.Ledger;
 import pers.yiran.housekeeper.domain.QueryForm;
+import pers.yiran.housekeeper.tools.DateUtils;
 import pers.yiran.housekeeper.tools.JDBCUtils;
 
 import java.sql.SQLException;
@@ -12,6 +15,26 @@ import java.util.List;
 
 public class LedgerDao {
     private final QueryRunner queryRunner = new QueryRunner(JDBCUtils.getDataSource());
+
+    public Double getTotalMoney(String parent) {
+        String sql = "SELECT SUM(money) FROM keeper_ledger WHERE parent= ? AND createtime LIKE ?";
+        Object[] params = {parent, DateUtils.getYear() + "%"};
+        try {
+            return queryRunner.query(sql, new ScalarHandler<>(), params);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<Object[]> querySumMoneyBySort(String parent) {
+        String sql = "SELECT SUM(money),sid FROM keeper_ledger WHERE parent= ? AND createtime LIKE ? GROUP BY sid";
+        Object[] params = {parent, DateUtils.getYear() + "%"};
+        try {
+            return queryRunner.query(sql, new ArrayListHandler(), params);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     public int deleteLedger(int lid) {
         try {

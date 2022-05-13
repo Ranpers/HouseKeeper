@@ -24,6 +24,19 @@ public class LedgerService {
         return sortDao.getSidBySname(sname);
     }
 
+    public Double queryTotalMoneyByParent(String parent) {
+        return ledgerDao.getTotalMoney(parent);
+    }
+
+    public Map<String, Double> querySumMoneyBySort(String parent) {
+        List<Object[]> list = ledgerDao.querySumMoneyBySort(parent);
+        HashMap<String, Double> map = new HashMap<>();
+        for (Object[] objects : list) {
+            map.put(sortDao.getSnameBySid((int) objects[1]), (Double) objects[0]);
+        }
+        return map;
+    }
+
     /*
      *定义方法 添加账务
      */
