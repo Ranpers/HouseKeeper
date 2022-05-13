@@ -16,6 +16,10 @@ public class LedgerService {
         return ledgerDao.deleteLedger(lid);
     }
 
+    public int deleteLedgerBySort(int sid) {
+        return ledgerDao.deleteLedgerBySort(sid);
+    }
+
     public int editLedger(Ledger ledger) {
         return ledgerDao.editLedger(ledger);
     }

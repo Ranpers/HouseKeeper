@@ -20,7 +20,15 @@ public class LedgerDao {
         String sql = "SELECT SUM(money) FROM keeper_ledger WHERE parent= ? AND createtime LIKE ?";
         Object[] params = {parent, DateUtils.getYear() + "%"};
         try {
-             return queryRunner.query(sql, new ScalarHandler<>(), params);
+            return queryRunner.query(sql, new ScalarHandler<>(), params);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public int deleteLedgerBySort(int sid) {
+        try {
+            return queryRunner.update("DELETE FROM keeper_ledger WHERE sid = ?", sid);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
