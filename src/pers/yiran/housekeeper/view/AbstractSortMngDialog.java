@@ -7,8 +7,6 @@ import pers.yiran.housekeeper.tools.ListTableModel;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
@@ -40,7 +38,7 @@ public abstract class AbstractSortMngDialog extends JDialog {
 		GUITools.center(this);//设置居中
 		this.setLayout(null);
 		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);// 设置关闭按钮
-		this.setTableModel(queryAllSort());//查询所有分类列表信息并展示在表格中
+		this.setTableModel(null);//查询所有分类列表信息并展示在表格中
 	}
 	
 	private void addComponent() {
@@ -91,7 +89,7 @@ public abstract class AbstractSortMngDialog extends JDialog {
 			return;
 		}
 		try {
-			sortDataTable.setModel(new ListTableModel<Sort>(sortList, Sort.class, colNames, propNames));
+			sortDataTable.setModel(new ListTableModel<>(sortList, Sort.class, colNames, propNames));
 			sortDataTable.setEnabled(true);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -106,32 +104,16 @@ public abstract class AbstractSortMngDialog extends JDialog {
 	 * 给组件添加监听器
 	 */
 	private void addListener() {
-		closeBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent evt) {
-				AbstractSortMngDialog.this.dispose();
-			}
-		});
-		
-		addBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent evt) {
-				addSort();
-			}
-		});
-		editBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent evt) {
-				editSort();
-			}
-		});
-		delBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent evt) {
-				deleteSort();
-			}
-		});
+		closeBtn.addActionListener(evt -> AbstractSortMngDialog.this.dispose());
+
+		addBtn.addActionListener(evt -> addSort());
+		editBtn.addActionListener(evt -> editSort());
+		delBtn.addActionListener(evt -> deleteSort());
 		sortDataTable.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
-				if(e.getButton() == 1) {
-					if(e.getClickCount() >= 2) {
-						editSort();		
+				if (e.getButton() == 1) {
+					if (e.getClickCount() >= 2) {
+						editSort();
 					}
 				}
 			}
@@ -141,5 +123,4 @@ public abstract class AbstractSortMngDialog extends JDialog {
 	public abstract void addSort();
 	public abstract void editSort();
 	public abstract void deleteSort();
-	public abstract List<Sort>  queryAllSort();
 }

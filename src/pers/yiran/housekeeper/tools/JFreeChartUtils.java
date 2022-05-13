@@ -28,7 +28,7 @@ public class JFreeChartUtils {
 		JFreeChart chart = ChartFactory.createPieChart3D(title, pieDataset, true, true, false);
 
 		try {
-			ChartUtilities.saveChartAsJPEG(new File(path), chart, 500, 300);
+			ChartUtilities.saveChartAsPNG(new File(path), chart, 500, 300);
 		} catch(Exception e) {
 			throw new RuntimeException(e);
 		}

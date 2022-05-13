@@ -4,8 +4,6 @@ import pers.yiran.housekeeper.tools.GUITools;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 public abstract class AbstractMainFrame extends JFrame {
 	static {
@@ -19,7 +17,7 @@ public abstract class AbstractMainFrame extends JFrame {
 	/*
 	 * 组件
 	 */
-	private final JLabel titleLabel = new JLabel(new ImageIcon("resource/image/gjp.jpg"));//标题
+	private final JLabel titleLabel = new JLabel(new ImageIcon("source/image/gjp.jpg"));//标题
 	private final JButton ledgerBtn = new JButton("账务管理");//账务管理
 	private final JButton sortBtn = new JButton("分类管理");//分类管理
 
@@ -59,16 +57,8 @@ public abstract class AbstractMainFrame extends JFrame {
 
 	// 添加监听器
 	private void addListener() {
-		ledgerBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				ledgerMng();
-			}
-		});
-		sortBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				sortMng();
-			}
-		});
+		ledgerBtn.addActionListener(e -> ledgerMng());
+		sortBtn.addActionListener(e -> sortMng());
 	}
 	
 	public abstract void ledgerMng();

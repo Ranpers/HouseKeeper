@@ -5,7 +5,6 @@ import pers.yiran.housekeeper.services.SortService;
 import pers.yiran.housekeeper.view.AbstractSortMngDialog;
 
 import javax.swing.*;
-import java.util.List;
 
 @SuppressWarnings("all")
 public class SortMngController extends AbstractSortMngDialog {
@@ -60,11 +59,5 @@ public class SortMngController extends AbstractSortMngDialog {
             }
         }
     }
-
-    @Override
-    public List<Sort> queryAllSort() {
-        return null;
-    }
-
     public void refresh(){setTableModel(sortService.querySortAll());}
 }
