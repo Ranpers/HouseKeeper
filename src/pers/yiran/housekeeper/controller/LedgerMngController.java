@@ -59,7 +59,7 @@ public class LedgerMngController extends AbstractLedgerMngDialog {
         EditLedgerController editLedgerController = new EditLedgerController(this, ledger);
         editLedgerController.setVisible(true);
         if (editLedgerController.flag()){
-            queryLedger();
+            queryLedger(minDate, maxDate, parent, son);
             JOptionPane.showMessageDialog(this, "编辑账务成功");
         }
     }
