@@ -9,8 +9,6 @@ import pers.yiran.housekeeper.tools.ListTableModel;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Date;
@@ -23,8 +21,9 @@ public abstract class AbstractLedgerMngDialog extends JDialog {
 	protected JComboBox parentBox = new JComboBox();// 父分类下拉列表
 	protected JComboBox sortBox = new JComboBox();// 分类下拉列表
 	protected JTable ledgerDataTable = new JTable();// 账务数据列表
-	protected JLabel inMoneyTotalLabel = new JLabel("总收入：0.00元");
-	protected JLabel payMoneyTotalLabel = new JLabel("总支出：0.00元");
+	protected JLabel inMoneyTotalLabel = new JLabel("总收入：0.00元", SwingConstants.CENTER);
+	protected JLabel payMoneyTotalLabel = new JLabel("总支出：0.00元", SwingConstants.CENTER);
+	protected JLabel currentPageLabel = new JLabel("当前：1/1页", SwingConstants.CENTER);
 
 	private final JButton queryBtn = new JButton("查　询");// 查询按钮
 	private final JButton pieBtn = new JButton("收/支比重统计");
@@ -33,6 +32,8 @@ public abstract class AbstractLedgerMngDialog extends JDialog {
 	private final JButton addBtn = new JButton("添加");
 	private final JButton editBtn = new JButton("编辑");
 	private final JButton delBtn = new JButton("删除");
+	private final JButton nextBtn = new JButton("下一页");
+	private final JButton preBtn = new JButton("上一页");
 
 	public AbstractLedgerMngDialog(JFrame frame) {
 		super(frame, true);
@@ -115,26 +116,33 @@ public abstract class AbstractLedgerMngDialog extends JDialog {
 		scrollPane.setViewportView(ledgerDataTable);
 		this.add(scrollPane);
 
+		//当前页数
+		this.currentPageLabel.setBounds(260, 260, 160, 28);
+		this.add(currentPageLabel);
 		// 总收入标签
-		this.inMoneyTotalLabel.setBounds(400, 260, 120, 28);
+		this.inMoneyTotalLabel.setBounds(500, 260, 145, 28);
 		this.add(inMoneyTotalLabel);
 		inMoneyTotalLabel.setForeground(new java.awt.Color(0, 102, 0));
 
 		// 总支出标签
-		this.payMoneyTotalLabel.setBounds(530, 260, 120, 28);
+		this.payMoneyTotalLabel.setBounds(500, 275, 145, 28);
 		this.add(this.payMoneyTotalLabel);
 		payMoneyTotalLabel.setForeground(new java.awt.Color(255, 0, 0));
 
 		// 按钮
-		addBtn.setBounds(30, 290, 140, 28);
+		addBtn.setBounds(30, 300, 140, 28);
 		this.add(addBtn);
-		editBtn.setBounds(270, 290, 140, 28);
+		editBtn.setBounds(270, 330, 140, 28);
 		this.add(editBtn);
-		delBtn.setBounds(510, 290, 140, 28);
+		delBtn.setBounds(30, 330, 140, 28);
 		this.add(delBtn);
+		nextBtn.setBounds(340, 300, 70, 28);
+		this.add(nextBtn);
+		preBtn.setBounds(270, 300, 70, 28);
+		this.add(preBtn);
 
 		// 收支统计报表按钮
-		pieBtn.setBounds(30, 330, 140, 28);
+		pieBtn.setBounds(510, 300, 140, 28);
 		this.add(pieBtn);
 
 		// 关闭按钮
@@ -171,7 +179,7 @@ public abstract class AbstractLedgerMngDialog extends JDialog {
 			return;
 		}
 		try {
-			ledgerDataTable.setModel(new ListTableModel<Ledger>(ledgerList, Ledger.class, colNames, propNames));
+			ledgerDataTable.setModel(new ListTableModel<>(ledgerList, Ledger.class, colNames, propNames));
 			ledgerDataTable.setEnabled(true);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -182,48 +190,18 @@ public abstract class AbstractLedgerMngDialog extends JDialog {
 	 * 给组件添加监听器
 	 */
 	private void addListener() {
-		queryBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent evt) {
-				queryLedger();
-			}
-		});
-		pieBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent evt) {
-				pie();
-			}
-		});
-		closeBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent evt) {
-				AbstractLedgerMngDialog.this.dispose();
-			}
-		});
+		queryBtn.addActionListener(evt -> queryLedger());
+		pieBtn.addActionListener(evt -> pie());
+		closeBtn.addActionListener(evt -> AbstractLedgerMngDialog.this.dispose());
 
-		addBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent evt) {
-				addLedger();
-			}
+		addBtn.addActionListener(evt -> addLedger());
+		editBtn.addActionListener(evt -> editLedger());
+		delBtn.addActionListener(evt -> deleteLedger());
+		preBtn.addActionListener(e -> pageTurning("pre"));
+		nextBtn.addActionListener(e -> pageTurning("next"));
+		parentBox.addActionListener(evt -> {
+			parentChange();
 		});
-		editBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent evt) {
-				editLedger();
-			}
-		});
-		delBtn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent evt) {
-				deleteLedger();
-			}
-		});
-		parentBox.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent evt) {
-				parentChange();
-				//queryLedger();
-			}
-		});
-		/*sortBox.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent evt) {
-				queryLedger();
-			}
-		});*/
 		ledgerDataTable.addMouseListener(new MouseAdapter() {
 			public void mouseClicked(MouseEvent e) {
 				if (e.getButton() == 1) {
@@ -260,8 +238,14 @@ public abstract class AbstractLedgerMngDialog extends JDialog {
 	 * 父分类变化
 	 */
 	public abstract void parentChange();
+
 	/**
 	 * 生成饼形图
 	 */
 	public abstract void pie();
+
+	/**
+	 * 根据传参 账务翻页
+	 */
+	public abstract void pageTurning(String op);
 }

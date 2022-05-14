@@ -130,7 +130,7 @@ public class LedgerMngController extends AbstractLedgerMngDialog {
         //若 parent == “收入” 或 “支出” 则 从数据库中查询对应分类
         if("收入".equals(parent) || "支出".equals(parent)){
             List<Object> list = sortService.querySortNameByParent(parent);
-            list.add(0,"-请选择-");
+            list.add(0, "-请选择-");
             sortBox.setModel(new DefaultComboBoxModel(list.toArray()));
         }
     }
@@ -139,4 +139,10 @@ public class LedgerMngController extends AbstractLedgerMngDialog {
     public void pie() {
         new ShapeController(this).setVisible(true);
     }
+
+    @Override
+    public void pageTurning(String op) {
+
+    }
+
 }
