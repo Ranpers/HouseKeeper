@@ -5,6 +5,7 @@ import pers.yiran.housekeeper.dao.SortDao;
 import pers.yiran.housekeeper.domain.Ledger;
 import pers.yiran.housekeeper.domain.QueryForm;
 
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,21 +56,13 @@ public class LedgerService {
      * 遍历符合条件的 List集合 计算出 收入 支出
      * 存入 Map集合 return
      */
-    public Map<String,Object> queryLedgerByQueryForm(QueryForm queryForm){
-        List<Ledger> list = ledgerDao.queryLedgerByQueryForm(queryForm);
-        double in = 0;
-        double out = 0;
-        for(Ledger ledger : list){
-            ledger.setSname(sortDao.getSnameBySid(ledger.getSid()));
-            if("收入".equals(ledger.getParent()))
-                in+=ledger.getMoney();
-            else
-                out+=ledger.getMoney();
+    public Map<String, Object> queryLedgerByQueryForm(QueryForm queryForm) throws SQLException {
+        Map<String, Object> data = ledgerDao.queryLedgerByQueryForm(queryForm);
+        List<Ledger> list = (List<Ledger>) data.get("ledger");
+        if (list.isEmpty() && 1 != queryForm.getPage()) {
+            queryForm.setPage(queryForm.getPage() - 1);
+            data = ledgerDao.queryLedgerByQueryForm(queryForm);
         }
-        Map<String,Object> data = new HashMap<>();
-        data.put("ledger",list);
-        data.put("in",in);
-        data.put("out",out);
         return data;
     }
 }

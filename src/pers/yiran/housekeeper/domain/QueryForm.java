@@ -5,6 +5,11 @@ public class QueryForm {
     private String end;
     private String parent;
     private String son;
+    private int page;
+
+    public int getPage() {
+        return page;
+    }
 
     public String getBegin() {
         return begin;
@@ -37,12 +42,20 @@ public class QueryForm {
     public void setSon(String son) {
         this.son = son;
     }
-    public QueryForm(){}
-    public QueryForm(String begin,String end,String parent,String son){
-        this.begin=begin;
-        this.end=end;
-        this.parent=parent;
-        this.son=son;
+
+    public void setPage(int page) {
+        this.page = page;
+    }
+
+    public QueryForm() {
+    }
+
+    public QueryForm(String begin, String end, String parent, String son, int page) {
+        this.begin = begin;
+        this.end = end;
+        this.parent = parent;
+        this.son = son;
+        this.page = page;
     }
 
     @Override
