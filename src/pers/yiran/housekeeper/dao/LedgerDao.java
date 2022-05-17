@@ -78,10 +78,16 @@ public class LedgerDao {
         }
     }
 
-    public Map<String, Object> queryLedgerByQueryForm(QueryForm queryForm) throws SQLException {
+    private Double in;
+    private Double out;
+
+    public Map<String, Object> queryLedgerByQueryForm(QueryForm queryForm, boolean flag) throws SQLException {
         List<Object> params = new ArrayList<>();
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append("SELECT SUM(money) FROM keeper_ledger WHERE createtime BETWEEN ? AND ? AND parent = '支出'");
+        if (flag)
+            stringBuilder.append("SELECT SUM(money) FROM keeper_ledger WHERE createtime BETWEEN ? AND ? AND parent = '支出'");
+        else
+            stringBuilder.append("SELECT COUNT(lid) FROM keeper_ledger WHERE createtime BETWEEN ? AND ?");
         params.add(queryForm.getBegin() + "");
         params.add(queryForm.getEnd() + "");
         if ("收入".equals(queryForm.getParent()) || "支出".equals(queryForm.getParent())) {
@@ -94,19 +100,21 @@ public class LedgerDao {
             stringBuilder.append(" AND sid = ?");
             params.add(sid + "");
         }
-        Double out = queryRunner.query(stringBuilder.toString(), new ScalarHandler<>(), params.toArray());
-        if (null == out) out = 0.0;
-        stringBuilder.replace(84, 86, "收入");
-        Double in = queryRunner.query(stringBuilder.toString(), new ScalarHandler<>(), params.toArray());
-        if (null == in) in = 0.0;
-        stringBuilder.replace(69, 87, "");
-        stringBuilder.replace(7, 17, "COUNT(lid)");
+        Map<String, Object> data = new HashMap<>();
+        if (flag) {
+            out = queryRunner.query(stringBuilder.toString(), new ScalarHandler<>(), params.toArray());
+            if (null == out) out = 0.0;
+            stringBuilder.replace(84, 86, "收入");
+            in = queryRunner.query(stringBuilder.toString(), new ScalarHandler<>(), params.toArray());
+            if (null == in) in = 0.0;
+            stringBuilder.replace(69, 87, "");
+            stringBuilder.replace(7, 17, "COUNT(lid)");
+        }
         int dataSize;
         dataSize = Math.toIntExact(queryRunner.query(stringBuilder.toString(), new ScalarHandler<>(), params.toArray()));
-        Map<String, Object> data = new HashMap<>();
-        data.put("size", dataSize);
-        data.put("out", out);
         data.put("in", in);
+        data.put("out", out);
+        data.put("size", dataSize);
         stringBuilder.append(" ORDER BY createtime LIMIT ?,?");
         int page = queryForm.getPage();
         int total = queryForm.getPage() * 10;

@@ -42,7 +42,7 @@ public class LedgerMngController extends AbstractLedgerMngDialog {
         if (!addLedgerController.flag2()) return;
         try {
             if (addLedgerController.flag1(sdf.parse(minDate), sdf.parse(maxDate), parent, son)) {
-                queryLedger(minDate, maxDate, parent, son, maxPage);
+                queryLedger(minDate, maxDate, parent, son, maxPage, true);
                 this.page = maxPage;
                 currentPageLabel.setText("当前：" + this.page + "/" + maxPage + "页");
             }
@@ -68,7 +68,7 @@ public class LedgerMngController extends AbstractLedgerMngDialog {
         EditLedgerController editLedgerController = new EditLedgerController(this, ledger);
         editLedgerController.setVisible(true);
         if (editLedgerController.flag()) {
-            queryLedger(minDate, maxDate, parent, son, page);
+            queryLedger(minDate, maxDate, parent, son, page, true);
             JOptionPane.showMessageDialog(this, "编辑账务成功");
         }
     }
@@ -88,7 +88,7 @@ public class LedgerMngController extends AbstractLedgerMngDialog {
         int result = JOptionPane.showConfirmDialog(this, "确定要删除吗？");
         if (JOptionPane.OK_OPTION == result) {
             if (1 == ledgerService.deleteLedger(ledger.getLid())) {
-                queryLedger(minDate, maxDate, parent, son, page);
+                queryLedger(minDate, maxDate, parent, son, page, true);
                 if (maxPage < page)
                     page--;
                 currentPageLabel.setText("当前：" + this.page + "/" + maxPage + "页");
@@ -104,11 +104,11 @@ public class LedgerMngController extends AbstractLedgerMngDialog {
         String end = endDateTxt.getText();
         String parent = Objects.requireNonNull(parentBox.getSelectedItem()).toString();
         String son = Objects.requireNonNull(sortBox.getSelectedItem()).toString();
-        queryLedger(begin, end, parent, son, page);
+        queryLedger(begin, end, parent, son, page, true);
         currentPageLabel.setText("当前：" + this.page + "/" + maxPage + "页");
     }
 
-    private void queryLedger(String begin, String end, String parent, String son, int page) {
+    private void queryLedger(String begin, String end, String parent, String son, int page, boolean flag) {
         this.minDate = begin;
         this.maxDate = end;
         this.parent = parent;
@@ -116,7 +116,7 @@ public class LedgerMngController extends AbstractLedgerMngDialog {
         QueryForm queryForm = new QueryForm(begin, end, parent, son, page);
         Map<String, Object> data;
         try {
-            data = ledgerService.queryLedgerByQueryForm(queryForm);
+            data = ledgerService.queryLedgerByQueryForm(queryForm, flag);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -170,6 +170,6 @@ public class LedgerMngController extends AbstractLedgerMngDialog {
             page++;
         }
         currentPageLabel.setText("当前：" + this.page + "/" + maxPage + "页");
-        queryLedger(minDate, maxDate, parent, son, page);
+        queryLedger(minDate, maxDate, parent, son, page, false);
     }
 }
