@@ -16,6 +16,14 @@ import java.util.List;
 
 
 public abstract class AbstractLedgerMngDialog extends JDialog {
+	private final JButton queryBtn = new JButton("查　询");// 查询按钮
+	private final JButton pieBtn = new JButton("收/支比重统计");
+	private final JButton closeBtn = new JButton("关闭");
+	private final JButton addBtn = new JButton("添加");
+	private final JButton editBtn = new JButton("编辑");
+	private final JButton delBtn = new JButton("删除");
+	private final JButton nextBtn = new JButton("下一页");
+	private final JButton preBtn = new JButton("上一页");
 	protected JTextField beginDateTxt = new JTextField(6);// 开始查询时间
 	protected JTextField endDateTxt = new JTextField(6);// 结束查询时间
 	protected JComboBox parentBox = new JComboBox();// 父分类下拉列表
@@ -24,16 +32,6 @@ public abstract class AbstractLedgerMngDialog extends JDialog {
 	protected JLabel inMoneyTotalLabel = new JLabel("总收入：0.00元", SwingConstants.CENTER);
 	protected JLabel payMoneyTotalLabel = new JLabel("总支出：0.00元", SwingConstants.CENTER);
 	protected JLabel currentPageLabel = new JLabel("当前：1/1页", SwingConstants.CENTER);
-
-	private final JButton queryBtn = new JButton("查　询");// 查询按钮
-	private final JButton pieBtn = new JButton("收/支比重统计");
-	private final JButton closeBtn = new JButton("关闭");
-
-	private final JButton addBtn = new JButton("添加");
-	private final JButton editBtn = new JButton("编辑");
-	private final JButton delBtn = new JButton("删除");
-	private final JButton nextBtn = new JButton("下一页");
-	private final JButton preBtn = new JButton("上一页");
 
 	public AbstractLedgerMngDialog(JFrame frame) {
 		super(frame, true);
@@ -88,7 +86,7 @@ public abstract class AbstractLedgerMngDialog extends JDialog {
 		// 收支选择
 		JLabel inAndPayLabel = new JLabel("收/支：");
 		inAndPayLabel.setBounds(280, 70, 50, 28);
-		parentBox.setModel(new DefaultComboBoxModel(new String[] { "-请选择-", "收入/支出", "收入", "支出" }));
+		parentBox.setModel(new DefaultComboBoxModel(new String[]{"-请选择-", "收入/支出", "收入", "支出"}));
 		this.parentBox.setBounds(320, 70, 90, 28);
 		this.add(inAndPayLabel);
 		this.add(this.parentBox);
@@ -96,7 +94,7 @@ public abstract class AbstractLedgerMngDialog extends JDialog {
 		// 收支项目
 		JLabel sortLabel = new JLabel("分类：");
 		sortLabel.setBounds(420, 70, 50, 28);
-		sortBox.setModel(new DefaultComboBoxModel(new String[] { "-请选择-" }));
+		sortBox.setModel(new DefaultComboBoxModel(new String[]{"-请选择-"}));
 		this.sortBox.setBounds(460, 70, 110, 28);
 		this.add(sortLabel);
 		this.add(this.sortBox);
@@ -158,7 +156,7 @@ public abstract class AbstractLedgerMngDialog extends JDialog {
 		return ((ListTableModel<Ledger>) ledgerDataTable.getModel()).getInstance(row);
 	}
 
-	public  void setBoxModel(List<Object> sortItems) {
+	public void setBoxModel(List<Object> sortItems) {
 		sortBox.setModel(new DefaultComboBoxModel(sortItems.toArray()));
 	}
 
@@ -166,15 +164,15 @@ public abstract class AbstractLedgerMngDialog extends JDialog {
 	 * 显示账务表格
 	 */
 	protected void setTableModel(List<Ledger> ledgerList) {
-		String[] colNames = new String[] { "ID", "收/支", "分类", "金额", "账户", "创建时间", "说明" };
-		String[] propNames = new String[] { "lid", "parent", "sname", "money", "account", "createtime", "ldesc" };
+		String[] colNames = new String[]{"ID", "收/支", "分类", "金额", "账户", "创建时间", "说明"};
+		String[] propNames = new String[]{"lid", "parent", "sname", "money", "account", "createtime", "ldesc"};
 		if (ledgerList == null || ledgerList.size() == 0) {
 			ledgerDataTable
-					.setModel(new DefaultTableModel(new Object[][] { { null, null, null, null, null, null, null },
-							{ null, null, null, null, null, null, null }, { null, null, null, null, null, null, null },
-							{ null, null, null, null, null, null, null }, { null, null, null, null, null, null, null },
-							{ null, null, null, null, null, null, null }, { null, null, null, null, null, null, null },
-							{ null, null, null, null, null, null, null } }, colNames));
+					.setModel(new DefaultTableModel(new Object[][]{{null, null, null, null, null, null, null},
+							{null, null, null, null, null, null, null}, {null, null, null, null, null, null, null},
+							{null, null, null, null, null, null, null}, {null, null, null, null, null, null, null},
+							{null, null, null, null, null, null, null}, {null, null, null, null, null, null, null},
+							{null, null, null, null, null, null, null}}, colNames));
 			ledgerDataTable.setEnabled(false);
 			return;
 		}
@@ -230,7 +228,6 @@ public abstract class AbstractLedgerMngDialog extends JDialog {
 
 	/**
 	 * 查询账务
-	 *
 	 */
 	public abstract void queryLedger();
 

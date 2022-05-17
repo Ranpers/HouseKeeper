@@ -5,6 +5,7 @@ import org.apache.commons.beanutils.BeanUtils;
 
 import javax.swing.table.AbstractTableModel;
 import java.io.Serial;
+
 @SuppressWarnings("all")
 public class ListTableModel<T> extends AbstractTableModel {
     @Serial
@@ -23,7 +24,7 @@ public class ListTableModel<T> extends AbstractTableModel {
     }
 
     public int getRowCount() {
-    	int size = list.size();
+        int size = list.size();
         return Math.max(size, 10);
     }
 
@@ -36,16 +37,16 @@ public class ListTableModel<T> extends AbstractTableModel {
     }
 
     public Object getValueAt(int r, int c) {
-    	if(r >= list.size()) return null;
+        if (r >= list.size()) return null;
         try {
-			return BeanUtils.getProperty(list.get(r), propNames[c]);
-		} catch (Exception e) {
-			throw new RuntimeException(e);
-		}
+            return BeanUtils.getProperty(list.get(r), propNames[c]);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
-    
+
     public T getInstance(int row) {
-    	if(row >= list.size()) return null;
-    	return list.get(row);
+        if (row >= list.size()) return null;
+        return list.get(row);
     }
 }

@@ -11,12 +11,13 @@ import java.util.List;
 import java.util.Map;
 
 public class ShapeController extends AbstractShapeDialog {
+    private final LedgerService ledgerService = new LedgerService();
+
     public ShapeController(JDialog dialog) {
         super(dialog);
         initDialog();
     }
 
-    private final LedgerService ledgerService = new LedgerService();
     @Override
     public List<String> getImagePaths() {
         List<String> listPath = new ArrayList<>();

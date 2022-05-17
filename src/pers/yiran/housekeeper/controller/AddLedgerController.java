@@ -10,13 +10,15 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+
 @SuppressWarnings("all")
 public class AddLedgerController extends AbstractOperationLedgerDialog {
+    private final String daytime = createtimeTxt.getText();
     SortService sortService = new SortService();
     LedgerService ledgerService = new LedgerService();
     private boolean flag = false;
     private boolean flag2 = false;
-    private final String daytime = createtimeTxt.getText();
+
     public AddLedgerController(JDialog dialog) {
         super(dialog);
         titleLabel.setText("添加账务");
@@ -29,13 +31,13 @@ public class AddLedgerController extends AbstractOperationLedgerDialog {
         String parent = parentBox.getSelectedItem().toString();
 
         //若 parent == “-请选择-” 则 子分类 == “-请选择-”
-        if("-请选择-".equals(parent))
-            this.sortBox.setModel(new DefaultComboBoxModel(new String[] {"-请选择-"}));
+        if ("-请选择-".equals(parent))
+            this.sortBox.setModel(new DefaultComboBoxModel(new String[]{"-请选择-"}));
 
         //若 parent == “收入” 或 “支出” 则 从数据库中查询对应分类
-        if("收入".equals(parent) || "支出".equals(parent)){
+        if ("收入".equals(parent) || "支出".equals(parent)) {
             List<Object> list = sortService.querySortNameByParent(parent);
-            list.add(0,"-请选择-");
+            list.add(0, "-请选择-");
             this.sortBox.setModel(new DefaultComboBoxModel(list.toArray()));
         }
     }
@@ -43,29 +45,29 @@ public class AddLedgerController extends AbstractOperationLedgerDialog {
     @Override
     public void confirm() {
         String parent = parentBox.getSelectedItem().toString();
-        if("-请选择-".equals(parent)){
-            JOptionPane.showMessageDialog(this,"请选择收支");
+        if ("-请选择-".equals(parent)) {
+            JOptionPane.showMessageDialog(this, "请选择收支");
             return;
         }
         String son = sortBox.getSelectedItem().toString();
-        if("-请选择-".equals(son)){
-            JOptionPane.showMessageDialog(this,"请选择子分类");
+        if ("-请选择-".equals(son)) {
+            JOptionPane.showMessageDialog(this, "请选择子分类");
             return;
         }
         String account = accountTxt.getText();
-        if(null==account || account.isEmpty()){
-            JOptionPane.showMessageDialog(this,"请填写账户");
+        if (null == account || account.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "请填写账户");
             return;
         }
         double money;
         try {
             money = Double.parseDouble(moneyTxt.getText());
-        }catch (NumberFormatException e){
-            JOptionPane.showMessageDialog(this,"请填写正确的金额");
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "请填写正确的金额");
             return;
         }
-        if(0>=money){
-            JOptionPane.showMessageDialog(this,"所填写的金额应大于0");
+        if (0 >= money) {
+            JOptionPane.showMessageDialog(this, "所填写的金额应大于0");
             return;
         }
         String createtime = createtimeTxt.getText();
@@ -73,8 +75,8 @@ public class AddLedgerController extends AbstractOperationLedgerDialog {
         try {
             Date date1 = sdf.parse(daytime);
             Date date2 = sdf.parse(createtime);
-            if(0 > sdf.parse(daytime).compareTo(date2)){
-                JOptionPane.showMessageDialog(this,"日期不应晚于"+daytime);
+            if (0 > sdf.parse(daytime).compareTo(date2)) {
+                JOptionPane.showMessageDialog(this, "日期不应晚于" + daytime);
                 return;
             }
         } catch (ParseException e) {
@@ -82,11 +84,11 @@ public class AddLedgerController extends AbstractOperationLedgerDialog {
         }
         String ldesc = ldescTxt.getText();
         flag2 = true;
-        Ledger ledger = new Ledger(0,parent,money,0,son,account,createtime,ldesc);
-        if(1==ledgerService.addLedger(ledger)) {
+        Ledger ledger = new Ledger(0, parent, money, 0, son, account, createtime, ldesc);
+        if (1 == ledgerService.addLedger(ledger)) {
             this.dispose();
             flag = true;
-        }else{
+        } else {
             JOptionPane.showMessageDialog(this, "添加账务失败");
         }
     }

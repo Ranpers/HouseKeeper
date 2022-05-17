@@ -13,12 +13,11 @@ import java.util.List;
 
 
 public abstract class AbstractSortMngDialog extends JDialog {
-	protected JTable sortDataTable = new JTable();//账户数据列表
 	private final JButton closeBtn = new JButton("关闭");
-
 	private final JButton addBtn = new JButton("添加");
 	private final JButton editBtn = new JButton("编辑");
 	private final JButton delBtn = new JButton("删除");
+	protected JTable sortDataTable = new JTable();//账户数据列表
 
 	public AbstractSortMngDialog(JFrame frame) {
 		super(frame, true);
@@ -30,7 +29,7 @@ public abstract class AbstractSortMngDialog extends JDialog {
 		this.addComponent();
 		this.addListener();
 	}
-	
+
 	private void init() {
 		this.setResizable(false);// 设置窗体大小不可变
 		this.setTitle("分类管理");// 设置标题
@@ -40,7 +39,7 @@ public abstract class AbstractSortMngDialog extends JDialog {
 		this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);// 设置关闭按钮
 		this.setTableModel(null);//查询所有分类列表信息并展示在表格中
 	}
-	
+
 	private void addComponent() {
 		// 设置标签标题
 		JLabel titleLable = new JLabel();
@@ -52,13 +51,13 @@ public abstract class AbstractSortMngDialog extends JDialog {
 		// 滚动面板
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(30, 100, 620, 160);
-		
+
 		sortDataTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);//单选
 		sortDataTable.getTableHeader().setReorderingAllowed(false);//列不能移动
 
 		scrollPane.setViewportView(sortDataTable);
 		this.add(scrollPane);
-		
+
 		// 按钮
 		addBtn.setBounds(30, 290, 140, 28);
 		this.add(addBtn);
@@ -76,15 +75,15 @@ public abstract class AbstractSortMngDialog extends JDialog {
 	 * 显示分类表格
 	 */
 	protected void setTableModel(List<Sort> sortList) {
-		String[] colNames = new String[] {"ID", "分类名称", "父分类", "说明"};
-		String[] propNames = new String[] {"sid", "sname", "parent", "sdesc"};
-		if(sortList == null || sortList.size() == 0) {
-			sortDataTable.setModel(new DefaultTableModel(new Object[][] {
+		String[] colNames = new String[]{"ID", "分类名称", "父分类", "说明"};
+		String[] propNames = new String[]{"sid", "sname", "parent", "sdesc"};
+		if (sortList == null || sortList.size() == 0) {
+			sortDataTable.setModel(new DefaultTableModel(new Object[][]{
 					{null, null, null, null}, {null, null, null, null},
 					{null, null, null, null}, {null, null, null, null},
 					{null, null, null, null}, {null, null, null, null},
 					{null, null, null, null}, {null, null, null, null}
-				},colNames));
+			}, colNames));
 			sortDataTable.setEnabled(false);
 			return;
 		}
@@ -95,9 +94,9 @@ public abstract class AbstractSortMngDialog extends JDialog {
 			e.printStackTrace();
 		}
 	}
-	
+
 	protected Sort getSortByTableRow(int row) {
-		return ((ListTableModel<Sort>)sortDataTable.getModel()).getInstance(row);
+		return ((ListTableModel<Sort>) sortDataTable.getModel()).getInstance(row);
 	}
 
 	/**
@@ -119,8 +118,10 @@ public abstract class AbstractSortMngDialog extends JDialog {
 			}
 		});
 	}
-	
+
 	public abstract void addSort();
+
 	public abstract void editSort();
+
 	public abstract void deleteSort();
 }

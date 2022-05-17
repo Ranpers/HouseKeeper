@@ -10,6 +10,7 @@ import javax.swing.*;
 @SuppressWarnings("all")
 public class SortMngController extends AbstractSortMngDialog {
     private SortService sortService = new SortService();
+
     public SortMngController(JFrame frame) {
         super(frame);
         setTableModel(sortService.querySortAll());
@@ -25,12 +26,12 @@ public class SortMngController extends AbstractSortMngDialog {
     public void editSort() {
         int row = sortDataTable.getSelectedRow();
         Sort sort = getSortByTableRow(row);
-        if(row<0){
-            JOptionPane.showMessageDialog(this,"请选择数据");
+        if (row < 0) {
+            JOptionPane.showMessageDialog(this, "请选择数据");
             return;
         }
-        if(null==sort){
-            JOptionPane.showMessageDialog(this,"选择的是空行");
+        if (null == sort) {
+            JOptionPane.showMessageDialog(this, "选择的是空行");
             return;
         }
         new EditSortController(this, sort).setVisible(true);
@@ -41,16 +42,16 @@ public class SortMngController extends AbstractSortMngDialog {
     public void deleteSort() {
         int row = sortDataTable.getSelectedRow();
         Sort sort = getSortByTableRow(row);
-        if(0>row){
-            JOptionPane.showMessageDialog(this,"请选择数据");
+        if (0 > row) {
+            JOptionPane.showMessageDialog(this, "请选择数据");
             return;
         }
-        if(null==sort){
-            JOptionPane.showMessageDialog(this,"选择的是空行");
+        if (null == sort) {
+            JOptionPane.showMessageDialog(this, "选择的是空行");
             return;
         }
-        int choose = JOptionPane.showConfirmDialog(this,"是否确定删除？","删除提示",JOptionPane.YES_NO_OPTION);
-        if(JOptionPane.YES_OPTION == choose) {
+        int choose = JOptionPane.showConfirmDialog(this, "是否确定删除？", "删除提示", JOptionPane.YES_NO_OPTION);
+        if (JOptionPane.YES_OPTION == choose) {
             int flag1 = sortService.deleteSort(sort);
             int flag2 = new LedgerService().deleteLedgerBySort(sort.getSid());
             if (1 != flag1 || flag2 < 0) {
@@ -61,5 +62,8 @@ public class SortMngController extends AbstractSortMngDialog {
             }
         }
     }
-    public void refresh(){setTableModel(sortService.querySortAll());}
+
+    public void refresh() {
+        setTableModel(sortService.querySortAll());
+    }
 }

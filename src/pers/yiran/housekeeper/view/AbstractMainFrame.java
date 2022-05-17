@@ -35,22 +35,22 @@ public abstract class AbstractMainFrame extends JFrame {
 		this.setResizable(false);// 窗体大小固定
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);// 关闭窗口默认操作
 	}
-	
+
 	// 添加组件
 	private void addComponent() {
 		this.add(this.titleLabel, BorderLayout.NORTH);
 		JPanel btnPanel = new JPanel();
 		btnPanel.setLayout(null);
 		this.add(btnPanel);
-		
+
 		ledgerBtn.setBounds(40, 20, 120, 50);
 		sortBtn.setBounds(440, 20, 120, 50);
-		
+
 		Font font = new Font("华文彩云", Font.BOLD, 20);
-		
+
 		ledgerBtn.setFont(font);
 		sortBtn.setFont(font);
-		
+
 		btnPanel.add(ledgerBtn);
 		btnPanel.add(sortBtn);
 	}
@@ -60,7 +60,8 @@ public abstract class AbstractMainFrame extends JFrame {
 		ledgerBtn.addActionListener(e -> ledgerMng());
 		sortBtn.addActionListener(e -> sortMng());
 	}
-	
+
 	public abstract void ledgerMng();
+
 	public abstract void sortMng();
 }

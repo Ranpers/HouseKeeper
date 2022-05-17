@@ -17,6 +17,7 @@ import java.util.Map;
 
 public class LedgerDao {
     private final QueryRunner queryRunner = new QueryRunner(JDBCUtils.getDataSource());
+
     public Double getTotalMoney(String parent) {
         String sql = "SELECT SUM(money) FROM keeper_ledger WHERE parent= ? AND createtime LIKE ?";
         Object[] params = {parent, DateUtils.getYear() + "%"};
@@ -26,6 +27,7 @@ public class LedgerDao {
             throw new RuntimeException(e);
         }
     }
+
     public int deleteLedgerBySort(int sid) {
         try {
             return queryRunner.update("DELETE FROM keeper_ledger WHERE sid = ?", sid);
@@ -63,7 +65,8 @@ public class LedgerDao {
             throw new RuntimeException(e);
         }
     }
-    public int addLedger(Ledger ledger){
+
+    public int addLedger(Ledger ledger) {
         String sql = "INSERT INTO keeper_ledger (parent,money,sid,account,createtime,ldesc)" +
                 "values(?,?,?,?,?,?)";
         Object[] params = {ledger.getParent(), ledger.getMoney(), ledger.getSid(), ledger.getAccount(),
@@ -73,10 +76,6 @@ public class LedgerDao {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    private List<Double> getMoneyByParent(QueryForm queryForm) {
-        return null;
     }
 
     public Map<String, Object> queryLedgerByQueryForm(QueryForm queryForm) throws SQLException {

@@ -7,46 +7,6 @@ public class QueryForm {
     private String son;
     private int page;
 
-    public int getPage() {
-        return page;
-    }
-
-    public String getBegin() {
-        return begin;
-    }
-
-    public String getEnd() {
-        return end;
-    }
-
-    public String getParent() {
-        return parent;
-    }
-
-    public String getSon() {
-        return son;
-    }
-
-    public void setBegin(String begin) {
-        this.begin = begin;
-    }
-
-    public void setEnd(String end) {
-        this.end = end;
-    }
-
-    public void setParent(String parent) {
-        this.parent = parent;
-    }
-
-    public void setSon(String son) {
-        this.son = son;
-    }
-
-    public void setPage(int page) {
-        this.page = page;
-    }
-
     public QueryForm() {
     }
 
@@ -56,6 +16,46 @@ public class QueryForm {
         this.parent = parent;
         this.son = son;
         this.page = page;
+    }
+
+    public int getPage() {
+        return page;
+    }
+
+    public void setPage(int page) {
+        this.page = page;
+    }
+
+    public String getBegin() {
+        return begin;
+    }
+
+    public void setBegin(String begin) {
+        this.begin = begin;
+    }
+
+    public String getEnd() {
+        return end;
+    }
+
+    public void setEnd(String end) {
+        this.end = end;
+    }
+
+    public String getParent() {
+        return parent;
+    }
+
+    public void setParent(String parent) {
+        this.parent = parent;
+    }
+
+    public String getSon() {
+        return son;
+    }
+
+    public void setSon(String son) {
+        this.son = son;
     }
 
     @Override

@@ -13,65 +13,73 @@ import java.util.List;
 @SuppressWarnings("all")
 public class SortDao {
     private QueryRunner queryRunner = new QueryRunner(JDBCUtils.getDataSource());
-    public int getSidBySname(String sname){
+
+    public int getSidBySname(String sname) {
         String sql = "SELECT sid FROM keeper_sort WHERE sname = ?";
         try {
-            return (int)queryRunner.query(sql,new ScalarHandler(),sname);
+            return (int) queryRunner.query(sql, new ScalarHandler(), sname);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
-    public String getSnameBySid(int sid){
+
+    public String getSnameBySid(int sid) {
         String sql = "SELECT sname FROM keeper_sort WHERE sid = ?";
         try {
-            return (String)queryRunner.query(sql,new ScalarHandler(),sid);
+            return (String) queryRunner.query(sql, new ScalarHandler(), sid);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
-    public List<Object> querySortNameByParent(String parent){
+
+    public List<Object> querySortNameByParent(String parent) {
         String sql = "SELECT sname FROM keeper_sort WHERE parent = ?";
         try {
-            return (List<Object>)queryRunner.query(sql,new ColumnListHandler(),parent);
+            return (List<Object>) queryRunner.query(sql, new ColumnListHandler(), parent);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
-    public List<Object> querySortNameAll(){
+
+    public List<Object> querySortNameAll() {
         String sql = "SELECT sname FROM keeper_sort";
         try {
-            return (List<Object>) queryRunner.query(sql,new ColumnListHandler());
+            return (List<Object>) queryRunner.query(sql, new ColumnListHandler());
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
-    public int addSort(Sort sort){
+
+    public int addSort(Sort sort) {
         String sql = "INSERT INTO keeper_sort(sname,parent,sdesc) values(?,?,?)";
-        Object[] params = {sort.getSname(),sort.getParent(),sort.getSdesc()};
+        Object[] params = {sort.getSname(), sort.getParent(), sort.getSdesc()};
         try {
-            return queryRunner.update(sql,params);
+            return queryRunner.update(sql, params);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
-    public int editSort(Sort sort){
+
+    public int editSort(Sort sort) {
         String sql = "UPDATE keeper_sort SET sname=?, parent=?, sdesc=? WHERE sid=?";
-        Object[] params = {sort.getSname(),sort.getParent(),sort.getSdesc(),sort.getSid()};
+        Object[] params = {sort.getSname(), sort.getParent(), sort.getSdesc(), sort.getSid()};
         try {
-            return queryRunner.update(sql,params);
+            return queryRunner.update(sql, params);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
-    public int deleteSort(Sort sort){
+
+    public int deleteSort(Sort sort) {
         String sql = "DELETE FROM keeper_sort WHERE sid=?";
         Object[] params = {sort.getSid()};
         try {
-            return queryRunner.update(sql,params);
+            return queryRunner.update(sql, params);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
     }
+
     public List<Sort> querySortAll() {
         String sql = "SELECT * FROM keeper_sort";
         try {
