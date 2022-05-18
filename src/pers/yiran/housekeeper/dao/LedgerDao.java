@@ -18,6 +18,9 @@ import java.util.Map;
 public class LedgerDao {
     private final QueryRunner queryRunner = new QueryRunner(JDBCUtils.getDataSource());
 
+    /**
+     * 通过父分类获取相应的总金额
+     */
     public Double getTotalMoney(String parent) {
         String sql = "SELECT SUM(money) FROM keeper_ledger WHERE parent= ? AND createtime LIKE ?";
         Object[] params = {parent, DateUtils.getYear() + "%"};
@@ -36,6 +39,9 @@ public class LedgerDao {
         }
     }
 
+    /**
+     * 根据父分类获取对应的每个子分类的支出/收入和
+     */
     public List<Object[]> querySumMoneyBySort(String parent) {
         String sql = "SELECT SUM(money),sid FROM keeper_ledger WHERE parent= ? AND createtime LIKE ? GROUP BY sid";
         Object[] params = {parent, DateUtils.getYear() + "%"};
