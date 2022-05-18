@@ -120,7 +120,7 @@ public class LedgerDao {
         int total = queryForm.getPage() * 10;
         params.add((page - 1) * 10);
         if (total > dataSize) {
-            params.add(10 + dataSize);
+            params.add(10 * (1 - page) + dataSize);
         } else {
             params.add(10);
         }

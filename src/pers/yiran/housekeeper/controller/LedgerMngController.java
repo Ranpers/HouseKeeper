@@ -23,6 +23,7 @@ public class LedgerMngController extends AbstractLedgerMngDialog {
     private String son;
     private int page = 1;
     private int maxPage;
+    private int dataSize;
 
     public LedgerMngController(JFrame frame) {
         super(frame);
@@ -42,6 +43,8 @@ public class LedgerMngController extends AbstractLedgerMngDialog {
         if (!addLedgerController.flag2()) return;
         try {
             if (addLedgerController.flag1(sdf.parse(minDate), sdf.parse(maxDate), parent, son)) {
+                if (dataSize % 10 == 0)
+                    maxPage++;
                 queryLedger(minDate, maxDate, parent, son, maxPage, true);
                 this.page = maxPage;
                 currentPageLabel.setText("当前：" + this.page + "/" + maxPage + "页");
@@ -88,9 +91,9 @@ public class LedgerMngController extends AbstractLedgerMngDialog {
         int result = JOptionPane.showConfirmDialog(this, "确定要删除吗？");
         if (JOptionPane.OK_OPTION == result) {
             if (1 == ledgerService.deleteLedger(ledger.getLid())) {
-                queryLedger(minDate, maxDate, parent, son, page, true);
-                if (maxPage < page)
+                if (dataSize % 10 == 1 && 1 != page)
                     page--;
+                queryLedger(minDate, maxDate, parent, son, page, true);
                 currentPageLabel.setText("当前：" + this.page + "/" + maxPage + "页");
                 JOptionPane.showMessageDialog(this, "删除成功");
             }
@@ -121,9 +124,10 @@ public class LedgerMngController extends AbstractLedgerMngDialog {
             throw new RuntimeException(e);
         }
         List<Ledger> list = (List<Ledger>) data.get("ledger");
-        maxPage = (int) Math.ceil((int) data.get("size") / 10.0);
+        dataSize = (int) data.get("size");
+        maxPage = (int) Math.ceil(dataSize / 10.0);
         if (0 == maxPage)
-            maxPage = 1;
+            this.maxPage = 1;
         this.setTableModel(list);
         this.inMoneyTotalLabel.setText("总收入：" + formatDouble(data.get("in")) + "元");
         this.payMoneyTotalLabel.setText("总支出：" + formatDouble(data.get("out")) + "元");
