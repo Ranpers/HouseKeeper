@@ -54,15 +54,13 @@ public class LedgerService {
 
     /*
      * return Map集合
-     * 遍历符合条件的 List集合 计算出 收入 支出
      * 存入 Map集合 return
      */
     public Map<String, Object> queryLedgerByQueryForm(QueryForm queryForm, boolean flag) throws SQLException {
         Map<String, Object> data = ledgerDao.queryLedgerByQueryForm(queryForm, flag);
         List<Ledger> list = (List<Ledger>) data.get("ledger");
-        if (list.isEmpty() && 1 != queryForm.getPage()) {
-            queryForm.setPage(queryForm.getPage() - 1);
-            data = ledgerDao.queryLedgerByQueryForm(queryForm, flag);
+        for (Ledger ledger : list) {
+            ledger.setSname(sortDao.getSnameBySid(ledger.getSid()));
         }
         return data;
     }
